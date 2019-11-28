@@ -1,0 +1,9 @@
+.CostsList {
+  background: rgb(246, 193, 193);
+  height: 500px;
+}
+.TotalPrice{
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 20px;
+}
