@@ -5,7 +5,7 @@ import TotalPrice from './TotalPrice/TotalPrice'
 import { MDBListGroup, MDBContainer } from "mdbreact";
 
 export default function CostsList({ costs, removeCostsItem }) {
-  const cls = [classes.CostsList, 'col-6', 'p-4'];
+  const cls = [classes.CostsList, 'col-4', 'p-4'];
   return (
     <div className={cls.join(' ')}>
       <MDBContainer>
