@@ -3,42 +3,48 @@ import ImputGroup from '../../components/InputGroup/InputGroup';
 import CostsList from '../../components/CostsList/CostsList';
 import PieChart from '../../components/PieChart/PieChart';
 
+const data = {
+  item: '',
+  price: '',
+  select: '',
+}
 export default class MoneyKeeper extends Component {
   state = {
-    item: '',
-    price: null,
-    select: '',
+    inputGroupData: data,
     costs: [],
-    test: null
+    chart: null,
   }
 
   constructor() {
     super();
-    this.state.test = new PieChart();
+    this.state.chart = new PieChart();
   }
 
   handleInputValue = e => {
-    const target = e.target;
+    const name = e.target.name;
     const value = e.target.value;
-    if (target.name === 'item') {
-      this.setState({ item: value });
-    } else {
-      this.setState({ price: value });
-    }
+    const inputGroupData = { ...this.state.inputGroupData }
+    inputGroupData[name] = value;
+    this.setState({ inputGroupData })
   }
 
   addNewCost = e => {
-    e.preventDefault()
-    this.setState(prevState => prevState.costs.push({ item: prevState.item, price: prevState.price, select: prevState.select }))
+    e.preventDefault();
+    const costs = this.state.costs;
+    costs.push(this.state.inputGroupData);
+    this.setState({ costs, inputGroupData: data });
   }
+
 
   selector = e => {
-    const select = e.target.value
-    this.setState({ select });
+    const value = e.target.value;
+    const inputGroupData = { ...this.state.inputGroupData };
+    inputGroupData.select = value;
+    this.setState({ inputGroupData });
   }
 
-  removeCostsItem = (index) => {
-    this.setState(prevState => prevState.costs.splice(index, 1))
+  removeCostsItem = index => {
+    this.setState(prevState => prevState.costs.splice(index, 1));
   }
 
   changeStat = () => {
@@ -66,7 +72,7 @@ export default class MoneyKeeper extends Component {
         <h1 className="text-center my-5">Money Keeper</h1>
         <div className='row justify-content-center'>
           <div className="d-flex flex-column align-items-center">
-            <ImputGroup handleInputValue={this.handleInputValue} addNewCost={this.addNewCost} selector={this.selector} />
+            <ImputGroup handleInputValue={this.handleInputValue} addNewCost={this.addNewCost} selector={this.selector} inputValue={this.state.inputGroupData} />
             {pieChart.render()}
           </div>
           <CostsList costs={this.state.costs} removeCostsItem={this.removeCostsItem} />
